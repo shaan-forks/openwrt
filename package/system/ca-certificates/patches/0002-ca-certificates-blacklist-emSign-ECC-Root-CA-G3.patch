@@ -1,0 +1,21 @@
+From: Shaan Majid <70789625+shaanmajid@users.noreply.github.com>
+Subject: [PATCH] ca-certificates: blacklist emSign ECC Root CA - G3
+
+The private keys of eight eMudhra intermediate CAs have been
+compromised. Their TLS issuer, emSign Root TLS CA - G3, is cross-signed
+by emSign ECC Root CA - G3. NSS 3.131.1 removes that root (Mozilla bug
+2084101), but no Debian release carries the removal yet.
+
+Blacklist the root so certdata2pem.py skips it.
+
+Signed-off-by: Shaan Majid <70789625+shaanmajid@users.noreply.github.com>
+---
+--- a/mozilla/blacklist.txt
++++ b/mozilla/blacklist.txt
+@@ -4,3 +4,6 @@
+ "Explicitly Distrust DigiNotar Root CA"
+ 
+ # Expired CAs
++
++# Compromised intermediate CAs chain to this root (Mozilla bug 2084101)
++"emSign ECC Root CA - G3"
